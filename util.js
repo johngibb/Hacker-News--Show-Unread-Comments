@@ -19,14 +19,6 @@ function GetVisibleLinks(){
   return GetAllLinks().filter(':inview');
 }
 
-function TrackVisibleLinks(callback){
-  function FireVisibleLinksChanged(){
-    callback(GetVisibleLinks());
-  }
-  $(document).scroll(FireVisibleLinksChanged);
-  FireVisibleLinksChanged();
-}
-
 function MarkNew(link){
   var link = $(link);
   link.after( 

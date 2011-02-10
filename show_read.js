@@ -8,14 +8,18 @@ function FindAndMarkUnreadLinks(){
   })
 }
 
-TrackVisibleLinks(function(visibleLinks){
+function OnScroll(){
+  var visibleLinks = GetAllLinks().filter(':inview');
   window.setTimeout(function(){
     var stillVisible = visibleLinks.filter(':inview');
     stillVisible.each(function(){
       MarkRead($(this));
       AddLinkId(getId($(this)))
     })
-  }, 1000);
-});
+  }, 1000)
+}
+
+$(document).scroll(OnScroll);
 
 FindAndMarkUnreadLinks();
+OnScroll();
