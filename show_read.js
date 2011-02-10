@@ -1,8 +1,6 @@
 var links = $('a[href^=item?id=]'); 
 
-function getId(link){
-  return link.attr('href').replace(/.*=/, '');
-}
+
 
 AddLinkId(1778913);
 AddLinkId(1778742);
@@ -20,3 +18,12 @@ links.each(function(){
     }  
   });
 })
+
+var prevLinkIds = [];
+$(document).scroll(function(){
+  var visibleLinkIds = GetVisibleLinkIds();
+  if (!ArraysEqual(prevLinkIds, visibleLinkIds)){
+    console.log("Visible: " + visibleLinkIds.join(", "));
+  }
+  prevLinkIds = visibleLinkIds;
+});
