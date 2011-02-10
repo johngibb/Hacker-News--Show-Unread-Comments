@@ -23,7 +23,7 @@ function GetVisibleLinks(){
   return GetAllLinks().filter(':inview');
 }
 
-function GetVisibleLinkIds(links){
+function GetLinkIds(links){
   return links.map(function(){
     return getId($(this));
   }).toArray();
@@ -32,15 +32,16 @@ function GetVisibleLinkIds(links){
 function TrackVisibleLinks(callback){
   var prevLinkIds = [];
   $(document).scroll(function(){
-    var visibleLinkIds = GetVisibleLinkIds(GetVisibleLinks());
+    var visibleLinks = GetVisibleLinks();
+    var visibleLinkIds = GetLinkIds(visibleLinks);
     if (!ArraysEqual(prevLinkIds, visibleLinkIds)){
-      callback(visibleLinkIds);
+      callback(visibleLinks);
     }
     prevLinkIds = visibleLinkIds;
   });
 }
 
-function TrackVisitedLinks(links){
+function MarkVisitedLinks(links){
   links.each(function(){
     var link = $(this);
     var block = $(this).closest('td.default');
