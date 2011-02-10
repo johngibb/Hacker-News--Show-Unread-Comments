@@ -43,18 +43,22 @@ function TrackVisibleLinks(callback){
   FireVisibleLinksChanged();
 }
 
+markedIds = {};
 function MarkVisitedLinks(links){
   links.each(function(){
     var link = $(this);
     var block = $(this).closest('td.default');
     var id = getId(link);
-    CheckLinkId(id, function(isRead){
-      if (isRead) {
-        block.find("*").css('color', 'grey')
-      }
-      else {
-        link.after( " *NEW");    
-      }  
-    });
+    if (!(id in markedIds)){
+      markedIds[id] = true;
+      CheckLinkId(id, function(isRead){
+        if (isRead) {
+          block.find("*").css('color', 'grey')
+        }
+        else {
+          link.after( " *NEW");    
+        }  
+      });
+    }
   })
 }
