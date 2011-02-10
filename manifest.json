@@ -4,7 +4,7 @@
   "description": "This is an extension to show you which comments you've already read.",
   "content_scripts": [
     {
-      "matches": ["http://news.ycombinator.com/*"],
+      "matches": ["http://news.ycombinator.com/item*"],
       "js": ["jquery.js", "show_read.js"]
     }
   ]
