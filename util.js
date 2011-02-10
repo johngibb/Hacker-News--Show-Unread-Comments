@@ -23,8 +23,8 @@ function GetVisibleLinks(){
   return GetAllLinks().filter(':inview');
 }
 
-function GetVisibleLinkIds(){
-  return GetVisibleLinks().map(function(){
+function GetVisibleLinkIds(links){
+  return links.map(function(){
     return getId($(this));
   }).toArray();
 }
@@ -32,10 +32,26 @@ function GetVisibleLinkIds(){
 function TrackVisibleLinks(callback){
   var prevLinkIds = [];
   $(document).scroll(function(){
-    var visibleLinkIds = GetVisibleLinkIds();
+    var visibleLinkIds = GetVisibleLinkIds(GetVisibleLinks());
     if (!ArraysEqual(prevLinkIds, visibleLinkIds)){
       callback(visibleLinkIds);
     }
     prevLinkIds = visibleLinkIds;
   });
+}
+
+function TrackVisitedLinks(links){
+  links.each(function(){
+    var link = $(this);
+    var block = $(this).closest('td.default');
+    var id = getId(link);
+    CheckLinkId(id, function(isRead){
+      if (isRead) {
+        block.find("*").css('color', 'grey')
+      }
+      else {
+        link.after( " *NEW");    
+      }  
+    });
+  })
 }
