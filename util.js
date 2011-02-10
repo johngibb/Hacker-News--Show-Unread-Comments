@@ -47,17 +47,22 @@ function TrackVisibleLinks(callback){
 function MarkVisitedLinks(links){
   links.each(function(){
     var link = $(this);
-    var block = $(this).closest('td.default');
     var id = getId(link);
     CheckLinkId(id, function(isRead){
-      if (isRead) {
-        block.find("*").css('color', 'grey')
-      }
-      else {
-        link.after( " *NEW");    
-      }  
+      SetIsRead(link, isRead);
     });
   })
+}
+
+function SetIsRead(link, isRead){
+  var link = $(link);
+  var block = $(link).closest('td.default');
+  if (isRead) {
+    block.find("*").css('color', 'grey')
+  }
+  else {
+    link.after( " *NEW");    
+  }
 }
 
 function TrackNewlyVisibleLinks(callback){
