@@ -7,6 +7,6 @@ function MarkNewIfUnread(link){
 
 GetAllLinks().forEach(MarkNewIfUnread);
 
-GetAllLinks().remainInView(1000, function(){ 
+GetAllLinks().remainInView(5000, function(){ 
   $(this).forEach(chain(MarkRead, bind(GetLinkId,AddLinkId)));
 })
