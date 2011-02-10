@@ -19,11 +19,6 @@ links.each(function(){
   });
 })
 
-var prevLinkIds = [];
-$(document).scroll(function(){
-  var visibleLinkIds = GetVisibleLinkIds();
-  if (!ArraysEqual(prevLinkIds, visibleLinkIds)){
-    console.log("Visible: " + visibleLinkIds.join(", "));
-  }
-  prevLinkIds = visibleLinkIds;
-});
+TrackVisibleLinks(function(visibleLinkIds){
+  console.log("Visible: " + visibleLinkIds.join(", "));
+})

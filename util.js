@@ -28,3 +28,14 @@ function GetVisibleLinkIds(){
     return getId($(this));
   }).toArray();
 }
+
+function TrackVisibleLinks(callback){
+  var prevLinkIds = [];
+  $(document).scroll(function(){
+    var visibleLinkIds = GetVisibleLinkIds();
+    if (!ArraysEqual(prevLinkIds, visibleLinkIds)){
+      callback(visibleLinkIds);
+    }
+    prevLinkIds = visibleLinkIds;
+  });
+}
