@@ -27,17 +27,6 @@ function TrackVisibleLinks(callback){
   FireVisibleLinksChanged();
 }
 
-
-function MarkVisitedLinks(links){
-  links.each(function(){
-    var link = $(this);
-    var id = getId(link);
-    CheckLinkId(id, function(isRead){
-      if (!isRead) MarkNew(link);
-    });
-  })
-}
-
 function MarkNew(link){
   var link = $(link);
   link.after( 
