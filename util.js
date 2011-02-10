@@ -38,16 +38,11 @@ function MarkVisitedLinks(links){
   })
 }
 
-function GetSpanId(link){
-  return 'new_' + getId($(link));
-}
-
 function MarkNew(link){
   var link = $(link);
-  var spanId = GetSpanId(link);
   link.after( 
     $('<span>')
-      .attr('id', spanId)
+      .addClass('new-article')
       .css('color', 'red')
       .css('font-weight', 'bold')
       .html(" *NEW")
@@ -55,8 +50,8 @@ function MarkNew(link){
 }
 
 function MarkRead(link){
-  var link = $(link);
-  var spanId = GetSpanId(link);
-  $('#' + spanId).css('font-weight', 'normal');
+  $(link)
+    .next('span.new-article')
+    .css('font-weight', 'normal');
 }
 
