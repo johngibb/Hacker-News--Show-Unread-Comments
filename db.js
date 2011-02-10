@@ -12,10 +12,16 @@ function AddLinkId(linkId){
     });
 }
 
+var linkIdCache = {};
 function CheckLinkId(linkId, callback){
-    db.transaction(function (tx) {
+  if ( linkId in linkIdCache ){
+    callback(true);
+  }
+  db.transaction(function (tx) {
       tx.executeSql('select * from ReadLinks where linkId = ?', [linkId], function(tx, results){
-        callback(results.rows.length > 0);
+        var isRead = (results.rows.length > 0);
+        if (isRead) linkIdCache[linkId] = true;
+        callback(isRead);
       });
     });
 }
