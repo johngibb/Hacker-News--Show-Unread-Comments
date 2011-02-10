@@ -30,14 +30,8 @@ function GetLinkIds(links){
 }
 
 function TrackVisibleLinks(callback){
-  var prevLinkIds = [];
   function FireVisibleLinksChanged(){
-    var visibleLinks = GetVisibleLinks();
-    var visibleLinkIds = GetLinkIds(visibleLinks);
-    if (!ArraysEqual(prevLinkIds, visibleLinkIds)){
-      callback(visibleLinks);
-    }
-    prevLinkIds = visibleLinkIds;
+    callback(GetVisibleLinks());
   }
   $(document).scroll(FireVisibleLinksChanged);
   FireVisibleLinksChanged();
@@ -49,31 +43,27 @@ function MarkVisitedLinks(links){
     var link = $(this);
     var id = getId(link);
     CheckLinkId(id, function(isRead){
-      SetIsRead(link, isRead);
+      SetIsNew(link, !isRead);
     });
   })
 }
 
-function SetIsRead(link, isRead){
+function SetIsNew(link, isNew){
   var link = $(link);
-  var block = $(link).closest('td.default');
-  if (isRead) {
-    block.find("*").css('color', 'grey')
+  var spanId = 'new_' + getId(link);
+  if (isNew){
+    if ($('#' + spanId).length == 0){
+      link.after( 
+        $('<span>')
+          .attr('id', spanId)
+          .css('color', 'red')
+          .css('font-weight', 'bold')
+          .html(" *NEW")
+      );
+    }
   }
   else {
-    link.after( " *NEW");    
+    $('#' + spanId).css('font-weight', 'normal');
   }
 }
 
-function TrackNewlyVisibleLinks(callback){
-  var seenIds = {}
-  TrackVisibleLinks(function(links){
-    var newLinks = links.filter(function(){
-      var id = getId($(this));
-      var seen = (id in seenIds);
-      seenIds[id] = true;
-      return !seen;
-    });
-    callback(newLinks);
-  });
-}
