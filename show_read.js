@@ -5,6 +5,8 @@ AddLinkId(1778742);
 AddLinkId(781559);
 
 
-TrackVisibleLinks(function(visibleLinks){
-  MarkVisitedLinks(visibleLinks)
+TrackNewlyVisibleLinks(function(visibleLinks){
+  window.setTimeout(function(){
+    MarkVisitedLinks(visibleLinks)
+  }, 500);
 })

@@ -43,22 +43,32 @@ function TrackVisibleLinks(callback){
   FireVisibleLinksChanged();
 }
 
-markedIds = {};
+
 function MarkVisitedLinks(links){
   links.each(function(){
     var link = $(this);
     var block = $(this).closest('td.default');
     var id = getId(link);
-    if (!(id in markedIds)){
-      markedIds[id] = true;
-      CheckLinkId(id, function(isRead){
-        if (isRead) {
-          block.find("*").css('color', 'grey')
-        }
-        else {
-          link.after( " *NEW");    
-        }  
-      });
-    }
+    CheckLinkId(id, function(isRead){
+      if (isRead) {
+        block.find("*").css('color', 'grey')
+      }
+      else {
+        link.after( " *NEW");    
+      }  
+    });
   })
+}
+
+function TrackNewlyVisibleLinks(callback){
+  var seenIds = {}
+  TrackVisibleLinks(function(links){
+    var newLinks = links.filter(function(){
+      var id = getId($(this));
+      var seen = (id in seenIds);
+      seenIds[id] = true;
+      return !seen;
+    });
+    callback(newLinks);
+  });
 }
