@@ -1,4 +1,5 @@
 function MarkNewIfUnread(link){
+  link = $(link)
   CheckLinkId(GetLinkId(link), function(isRead){
     if (!isRead) MarkNew(link);
   })
@@ -7,5 +8,5 @@ function MarkNewIfUnread(link){
 GetAllLinks().forEach(MarkNewIfUnread);
 
 GetAllLinks().remainInView(1000, function(){ 
-  $(this).forEach(MarkRead).select(GetLinkId).forEach(AddLinkId);
+  $(this).forEach(MarkRead).forEach(bind(GetLinkId,AddLinkId));
 })

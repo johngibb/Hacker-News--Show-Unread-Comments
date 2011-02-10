@@ -9,10 +9,9 @@ $.extend($.expr[':'],{
 
 $.extend($.fn, { 
   forEach: function(callback){
-    $(this).each(function(){ 
-      callback($(this));
+    return $(this).each(function(){ 
+      callback(this);
     });
-    return $(this);
   },
   remainInView: function(duration, callback){
     $this = $(this);
@@ -28,8 +27,10 @@ $.extend($.fn, {
   }
 });
 
+
+
 function GetLinkId(link){
-  return link.attr('href').replace(/.*=/, '');
+  return $(link).attr('href').replace(/.*=/, '');
 }
 
 function GetAllLinks(){
@@ -51,4 +52,10 @@ function MarkRead(link){
   $(link)
     .next('span.new-article')
     .css('font-weight', 'normal');
+}
+
+function bind(fa, fb){
+  return function(x){
+    return fb(fa(x));
+  }
 }
