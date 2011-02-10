@@ -59,3 +59,10 @@ function bind(fa, fb){
     return fb(fa(x));
   }
 }
+
+function chain(fa, fb){
+  return function(x){
+    fa(x);
+    return fb(x);
+  }
+}
