@@ -13,6 +13,18 @@ $.extend($.fn, {
       callback($(this));
     });
     return $(this);
+  },
+  remainInView: function(duration, callback){
+    $this = $(this);
+    function watchItems(){
+      var visible = $this.filter(':inview');
+      window.setTimeout(function(){
+        callback.call(visible.filter(':inview'));
+      }, duration)
+    }
+    $(document).scroll(watchItems);
+    watchItems();
+    return $this;
   }
 });
 
@@ -40,4 +52,3 @@ function MarkRead(link){
     .next('span.new-article')
     .css('font-weight', 'normal');
 }
-
