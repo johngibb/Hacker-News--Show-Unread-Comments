@@ -7,10 +7,6 @@ $.extend($.expr[':'],{
     }
 });
 
-function ArraysEqual(a, b){
-  return a.length == b.length && a.join("|") == b.join("|");
-}
-
 function getId(link){
   return link.attr('href').replace(/.*=/, '');
 }
@@ -21,12 +17,6 @@ function GetAllLinks(){
 
 function GetVisibleLinks(){
   return GetAllLinks().filter(':inview');
-}
-
-function GetLinkIds(links){
-  return links.map(function(){
-    return getId($(this));
-  }).toArray();
 }
 
 function TrackVisibleLinks(callback){
@@ -43,27 +33,30 @@ function MarkVisitedLinks(links){
     var link = $(this);
     var id = getId(link);
     CheckLinkId(id, function(isRead){
-      SetIsNew(link, !isRead);
+      if (!isRead) MarkNew(link);
     });
   })
 }
 
-function SetIsNew(link, isNew){
+function GetSpanId(link){
+  return 'new_' + getId($(link));
+}
+
+function MarkNew(link){
   var link = $(link);
-  var spanId = 'new_' + getId(link);
-  if (isNew){
-    if ($('#' + spanId).length == 0){
-      link.after( 
-        $('<span>')
-          .attr('id', spanId)
-          .css('color', 'red')
-          .css('font-weight', 'bold')
-          .html(" *NEW")
-      );
-    }
-  }
-  else {
-    $('#' + spanId).css('font-weight', 'normal');
-  }
+  var spanId = GetSpanId(link);
+  link.after( 
+    $('<span>')
+      .attr('id', spanId)
+      .css('color', 'red')
+      .css('font-weight', 'bold')
+      .html(" *NEW")
+  );
+}
+
+function MarkRead(link){
+  var link = $(link);
+  var spanId = GetSpanId(link);
+  $('#' + spanId).css('font-weight', 'normal');
 }
 
