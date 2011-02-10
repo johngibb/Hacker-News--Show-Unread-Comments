@@ -7,16 +7,21 @@ $.extend($.expr[':'],{
     }
 });
 
-function getId(link){
+$.extend($.fn, { 
+  forEach: function(callback){
+    $(this).each(function(){ 
+      callback($(this));
+    });
+    return $(this);
+  }
+});
+
+function GetLinkId(link){
   return link.attr('href').replace(/.*=/, '');
 }
 
 function GetAllLinks(){
   return $('a[href^=item?id=]');
-}
-
-function GetVisibleLinks(){
-  return GetAllLinks().filter(':inview');
 }
 
 function MarkNew(link){
