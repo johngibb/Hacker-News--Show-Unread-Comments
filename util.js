@@ -31,14 +31,16 @@ function GetLinkIds(links){
 
 function TrackVisibleLinks(callback){
   var prevLinkIds = [];
-  $(document).scroll(function(){
+  function FireVisibleLinksChanged(){
     var visibleLinks = GetVisibleLinks();
     var visibleLinkIds = GetLinkIds(visibleLinks);
     if (!ArraysEqual(prevLinkIds, visibleLinkIds)){
       callback(visibleLinks);
     }
     prevLinkIds = visibleLinkIds;
-  });
+  }
+  $(document).scroll(FireVisibleLinksChanged);
+  FireVisibleLinksChanged();
 }
 
 function MarkVisitedLinks(links){
