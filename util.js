@@ -8,6 +8,9 @@ $.extend($.expr[':'],{
 });
 
 $.extend($.fn, { 
+	// I hate how the jQuery .each requires a parameterless function that uses 'this' to see
+	// the current item of iteration. This forEach instead takes a function whose only parameter
+	// is the current item.
   forEach: function(callback){
     return $(this).each(function(){ 
       callback(this);
